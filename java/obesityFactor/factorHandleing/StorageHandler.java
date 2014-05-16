@@ -14,7 +14,11 @@ import java.util.HashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.DimensionManager;
-
+/**
+ * 
+ * @author UranusCraft
+ *
+ */
 public class StorageHandler {
 	
 	
@@ -56,7 +60,7 @@ public class StorageHandler {
 	public static void Mapper(EntityPlayer player) {
 		 if(!map.containsKey(player.getDisplayName())) {
 			  try {
-				readFile(DimensionManager.getCurrentSaveRootDirectory(), "Chargers", player);
+				readFile(DimensionManager.getCurrentSaveRootDirectory(), "obesityFactor", player);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -67,17 +71,17 @@ public class StorageHandler {
 			 String v = map.get(player.getDisplayName());
 			 
 			 
-				 int h = Integer.parseInt(v) + 1;
+				 double h = Double.parseDouble(v) + 1;
 				 map.put(player.getDisplayName(), "" + h);
 			 
 		 }
 	}
 
-	public static void readFile(File file, String name, EntityPlayer player) throws IOException {
+	public static String readFile(File file, String name, EntityPlayer player) throws IOException {
 		File saveFile = new File(file, name + ".txt");
 		
 		DataInputStream dataStream = new DataInputStream(new FileInputStream(saveFile));
-		
+		String v = "";
 		if (!saveFile.exists())
 	    {
 	        saveFile.createNewFile();
@@ -91,7 +95,7 @@ public class StorageHandler {
 		String user = dataStream.readUTF();
 		
 		dataStream.skip(1);
-		String v = dataStream.readUTF();
+		v = dataStream.readUTF();
 		
 		map.put(user, v);
 		
@@ -99,7 +103,7 @@ public class StorageHandler {
 		
 	    }
 
-
+		return v;
 
 	}
 }
