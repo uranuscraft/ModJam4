@@ -15,9 +15,16 @@ public class Equations {
 	double sine = Math.sin(par1);
 	double r = .5 * par1;
 	double ad = r + sine;
+	double add = 0;
+	if(par1 < 20) {
+		add = 100;
+	}
+	else {
+		add = 2;
 	
+	}
 	 
-	 return 1 / ad;
+	 return 1 / ad + add;
 	 
  }
 	/**
@@ -31,8 +38,15 @@ public class Equations {
 	double r = .5 * par2;
 	double ad = r + sine;
 	double re = 1 / ad;
-	 
-	 return re + par1;
+	double add = 0;
+	if(par1 < 20) {
+		add = 100;
+	}
+	else {
+		add = 2;
+	
+	}
+	 return re + par1 + add;
 	 
  }
 }

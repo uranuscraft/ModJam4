@@ -34,10 +34,10 @@ public class StorageHandler {
 	        saveFile.createNewFile();
 	    }
 		
-
-		if(!map.containsKey(player.getDisplayName())) {
+if(!map.isEmpty()){
+		if(!map.containsKey(player.getGameProfile().getName())) {
 			 
-			 map.put(player.getDisplayName(), "0");
+			 map.put(player.getGameProfile().getName(), "0");
 			
 	       
 		}
@@ -45,36 +45,76 @@ public class StorageHandler {
 		
 		
 
-			 dataStream.writeUTF(player.getDisplayName());
-			 dataStream.writeUTF(" ");
-			 dataStream.writeUTF((map.get(player.getDisplayName())));
-			 dataStream.close();
+		dataStream.writeUTF(player.getGameProfile().getName());
+		 dataStream.writeUTF(" ");
+		 dataStream.writeUTF((map.get(player.getGameProfile().getName())));
+		 dataStream.close();		 
 	         
 			
 		
 		
 		
+}
+else {
+	 map.put(player.getDisplayName(), "0");
+	dataStream.writeUTF(player.getDisplayName());
+	 dataStream.writeUTF(" ");
+	 dataStream.writeUTF((map.get(player.getGameProfile().getName())));
+	 dataStream.close();
+}
+	
+	
+}
 		
-		
-	}
+	
 	public static void Mapper(EntityPlayer player) {
-		 if(!map.containsKey(player.getDisplayName())) {
+		if(!map.isEmpty()){
+		if(!map.containsKey(player.getGameProfile().getName())) {
 			  try {
 				readFile(DimensionManager.getCurrentSaveRootDirectory(), "obesityFactor", player);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				try {
+					writeFile(DimensionManager.getCurrentSaveRootDirectory(), "obesityFactor", player);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				e.printStackTrace();
+				
 			}
 			
 		 }
-		 else if(map.containsKey(player.getDisplayName())) {
-			 String v = map.get(player.getDisplayName());
+		 else if(map.containsKey(player.getGameProfile().getName())) {
+			 String v = map.get(player.getGameProfile().getName());
 			 
 			 
 				 double h = Double.parseDouble(v) + 1;
-				 map.put(player.getDisplayName(), "" + h);
-			 
+				 map.put(player.getGameProfile().getName(), "" + h);
+				 try {
+					writeFile(DimensionManager.getCurrentSaveRootDirectory(), "obesityFactor", player);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
 		 }
+		}
+		else {
+			try {
+				readFile(DimensionManager.getCurrentSaveRootDirectory(), "obesityFactor", player);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				try {
+					writeFile(DimensionManager.getCurrentSaveRootDirectory(), "obesityFactor", player);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+				
+			}
+		}
 	}
 
 	public static String readFile(File file, String name, EntityPlayer player) throws IOException {
